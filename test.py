@@ -5,14 +5,17 @@ import random
 import string
 import time
 from math import sin
+import os
 
+FILE_PATH = './f.py'
+current_func = lambda x, y, t: 0
+lastupdateTime = os.path.getmtime(FILE_PATH)
 def main(stdscr):
     curses.start_color()
     curses.use_default_colors()
     for i in range(0, curses.COLORS):
         curses.init_pair(i + 1, i, -1)
     while True:
-        
         y, x = stdscr.getmaxyx()
         if not random.randint(0, 10):
             # stdscr.clear()
@@ -36,7 +39,7 @@ def main(stdscr):
 def realMain(stdscr):
     while True:
         y, x = stdscr.getmaxyx()
-
+        #stdscr.nodelay(True)
         # c = random.choice(string.ascii_letters+string.punctuation)
         # try:
         #     c = block(y, x)
@@ -58,10 +61,10 @@ def realMain(stdscr):
                 curses.init_pair(i + 1, i, -1)
             for i in range(y-1):
                 for j in range(x-1):
-                    try:
-                        stdscr.addstr(i, j, block(y, x), curses.color_pair( getColor(i, j)))    
-                    except Exception as e:
-                        print(e)
+                    #try:
+                    stdscr.addstr(i, j, block(y, x), curses.color_pair( getColor(i, j)))    
+                    #except Exception as e:
+                    #    print(e)
             #time.sleep(0.05)
             stdscr.refresh()
             
@@ -70,15 +73,14 @@ def now():
     return (time.time() - startTime)
 
 def getColor(y, x):
+    global lastupdateTime
+    global current_func
     t = now()
-    result = int(x*y*sin(t)*10)
-
-    if int(t) % 4 != 0:
-        result = int((x^y)*sin(t))
-    if int(t) %10 != 0:
-        result += x*y
-    if int(t) % 7 != 0:
-        result = int((x<<y) * sin(t)*5)
+    newUpdateTime = os.path.getmtime(FILE_PATH)
+    if newUpdateTime > lastupdateTime:
+        lastupdateTime = os.path.getmtime(FILE_PATH)
+        exec(open(FILE_PATH).read())
+    result = int(current_func(x, y, t))
     return result % 256
 
 def block(y, x):
