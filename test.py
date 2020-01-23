@@ -70,8 +70,16 @@ def now():
     return (time.time() - startTime)
 
 def getColor(y, x):
-    
-    return int((x * y * sin(now()*0.25))) + int(sin(now())*4) + int(sin(x)*10)  + int(sin(y)*5)% 256 
+    t = now()
+    result = int(x*y*sin(t)*10)
+
+    if int(t) % 4 != 0:
+        result = int((x^y)*sin(t))
+    if int(t) %10 != 0:
+        result += x*y
+    if int(t) % 7 != 0:
+        result = int((x<<y) * sin(t)*5)
+    return result % 256
 
 def block(y, x):
     return chr(0x2588)
