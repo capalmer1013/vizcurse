@@ -10,6 +10,9 @@ import os
 FILE_PATH = './f.py'
 current_func = lambda x, y, t: 0
 lastupdateTime = os.path.getmtime(FILE_PATH)
+def randchr():
+    return random.choice(string.ascii_letters+string.punctuation)
+
 def main(stdscr):
     curses.start_color()
     curses.use_default_colors()
@@ -58,11 +61,12 @@ def realMain(stdscr):
             curses.start_color()
             curses.use_default_colors()
             for i in range(0, curses.COLORS):
-                curses.init_pair(i + 1, i, -1)
+                curses.init_pair(i + 1, 0, i -1)
+            random.seed(1)
             for i in range(y-1):
                 for j in range(x-1):
                     #try:
-                    stdscr.addstr(i, j, block(y, x), curses.color_pair( getColor(i, j)))    
+                    stdscr.addstr(i, j, " ", curses.color_pair( getColor(i, j)))    
                     #except Exception as e:
                     #    print(e)
             #time.sleep(0.05)
@@ -83,7 +87,7 @@ def getColor(y, x):
     result = int(current_func(x, y, t))
     return result % 256
 
-def block(y, x):
+def block():
     return chr(0x2588)
 
 def rand(y, x):
