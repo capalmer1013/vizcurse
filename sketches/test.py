@@ -13,6 +13,19 @@ lastupdateTime = os.path.getmtime(FILE_PATH)
 def randchr():
     return random.choice(string.ascii_letters+string.punctuation)
 
+def printColors(stdscr):
+    curses.start_color()
+    curses.use_default_colors()
+    for i in range(0, curses.COLORS):
+        curses.init_pair(i + 1, 0, i -1)
+    
+    for i in range(curses.COLORS):
+        # if i % 4 == 0:
+        #     stdscr.insertln()
+        stdscr.addstr(str(i), curses.color_pair(i))
+    stdscr.refresh()
+    stdscr.getch()
+
 def main(stdscr):
     curses.start_color()
     curses.use_default_colors()
@@ -66,10 +79,10 @@ def realMain(stdscr):
             for i in range(y-1):
                 for j in range(x-1):
                     #try:
-                    stdscr.addstr(i, j, " ", curses.color_pair( getColor(i, j)))    
+                    stdscr.addstr(i, j, randchr(), curses.color_pair( getColor(i, j)))    
                     #except Exception as e:
                     #    print(e)
-            #time.sleep(0.05)
+            # time.sleep(0.05)
             stdscr.refresh()
             
     stdscr.getch()
@@ -85,7 +98,7 @@ def getColor(y, x):
         lastupdateTime = os.path.getmtime(FILE_PATH)
         exec(open(FILE_PATH).read())
     result = int(current_func(x, y, t))
-    return result % 256
+    return result % curses.COLORS
 
 def block():
     return chr(0x2588)
