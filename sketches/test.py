@@ -9,6 +9,8 @@ import os
 
 FILE_PATH = './f.py'
 current_func = lambda x, y, t: 0
+add_three = lambda :0
+
 lastupdateTime = os.path.getmtime(FILE_PATH)
 def randchr():
     return random.choice(string.ascii_letters+string.punctuation)
