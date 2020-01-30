@@ -1,5 +1,7 @@
 import os
+import time
 import argparse
+import itertools
 import curses
 from curses import wrapper
 import random
@@ -40,23 +42,26 @@ def getColor(y, x):
 
 
 def realMain(stdscr):
-    updateFunc()
+    y, x = stdscr.getmaxyx()
+    curses.start_color()
+    curses.use_default_colors()
     while True:
-        y, x = stdscr.getmaxyx()
-        while True:
-            updateFunc()
-            curses.start_color()
-            curses.use_default_colors()
+        updateFunc()
 
-            for i in range(0, curses.COLORS):
-                curses.init_pair(i + 1, 0, i -1)
+        for i in range(0, curses.COLORS):
+            curses.init_pair(i + 1, 0, i - 1)
 
-            # random.seed(1)
-            for i in range(y-1):
-                for j in range(x-1):
-                    stdscr.addstr(i, j, ' ', curses.color_pair( getColor(i, j)))    
+        # random.seed(1)
+        for product in itertools.product(range(y-1), range(x-1)):
+            stdscr.addstr(
+                product[0],
+                product[1],
+                ' ',
+                curses.color_pair(getColor(product[0], product[1]))
+            )
 
-            stdscr.refresh()
+        stdscr.refresh()
+        time.sleep(.5)
 
     stdscr.getch()
 
