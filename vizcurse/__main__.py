@@ -1,5 +1,4 @@
 import os
-import time
 import argparse
 import itertools
 import curses
@@ -61,7 +60,6 @@ def realMain(stdscr):
             )
 
         stdscr.refresh()
-        time.sleep(.5)
 
     stdscr.getch()
 
