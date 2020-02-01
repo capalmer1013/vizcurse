@@ -55,7 +55,8 @@ def main(stdscr, limit=0):
                 curses.color_pair(getColor(product[0], product[1]))
             )
         # Draw code block
-        for line_y, line_content in enumerate(file_contents.splitlines(), start=3):
+        file_content_lines = file_contents.splitlines()
+        for line_y, line_content in enumerate(file_content_lines, start=3):
             stdscr.addstr(line_y, 0, '{} '.format(line_content))
 
         stdscr.refresh()
