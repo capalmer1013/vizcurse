@@ -14,7 +14,8 @@ startTime = time.time()
 FILE_PATH = "example.py"
 lastupdateTime = os.path.getmtime(FILE_PATH)
 current_func = lambda x, y, t: 0
-exec(open(FILE_PATH).read())
+file_contents = open(FILE_PATH).read()
+exec(file_contents)
 
 def now():
     return (time.time() - startTime)
@@ -25,19 +26,21 @@ def randchr():
 def updateFunc():
     global current_func
     global lastupdateTime
+    global file_contents
     newUpdateTime = os.path.getmtime(FILE_PATH)
     if newUpdateTime > lastupdateTime:
         lastupdateTime = os.path.getmtime(FILE_PATH)
-        exec(open(FILE_PATH).read())
+        file_contents = open(FILE_PATH).read()
+        exec(file_contents)
 
 def getColor(y, x):
     t = now()
     result = int(current_func(x, y, t))
     return result % curses.COLORS
 
-
 def main(stdscr, limit=0):
     def loop():
+        global file_contents
         updateFunc()
 
         for i in range(0, curses.COLORS):
@@ -51,12 +54,24 @@ def main(stdscr, limit=0):
                 ' ',
                 curses.color_pair(getColor(product[0], product[1]))
             )
+        # Draw code block
+        for line_y, line_content in enumerate(file_contents.splitlines(), start=3):
+            code_window.addstr(line_y, 0, '{} '.format(line_content))
 
         stdscr.refresh()
-    
+
+    code_window = curses.initscr()
+    # raise Exception(code_window.getbkgd()
+    # Overlay code block onto main window
+    code_window.overlay(stdscr)
     y, x = stdscr.getmaxyx()
     curses.start_color()
     curses.use_default_colors()
+    # Try to hide cursor at the end of the code block
+    try:
+        curses.curs_set(0)
+    except curses.error:
+        pass
     if limit:
         for _ in range(limit):
             loop()
@@ -64,7 +79,6 @@ def main(stdscr, limit=0):
     else:
         while True:
             loop()
-    
 
 if __name__ == "__main__":
     # parse args
@@ -77,4 +91,5 @@ if __name__ == "__main__":
     FILE_PATH = args.i[0]  # not sure if there's a right way to do this
     lastupdateTime = os.path.getmtime(FILE_PATH)
     current_func = lambda x, y, t: 0
-    exec(open(FILE_PATH).read())
+    file_contents = open(FILE_PATH.read())
+    exec(file_contents)
