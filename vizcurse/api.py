@@ -56,18 +56,14 @@ def main(stdscr, limit=0):
             )
         # Draw code block
         for line_y, line_content in enumerate(file_contents.splitlines(), start=3):
-            code_window.addstr(line_y, 0, '{} '.format(line_content))
+            stdscr.addstr(line_y, 0, '{} '.format(line_content))
 
         stdscr.refresh()
 
-    code_window = curses.initscr()
-    # raise Exception(code_window.getbkgd()
-    # Overlay code block onto main window
-    code_window.overlay(stdscr)
     y, x = stdscr.getmaxyx()
     curses.start_color()
     curses.use_default_colors()
-    # Try to hide cursor at the end of the code block
+    # Try to hide cursor at the end of the code block (could error in some terminals)
     try:
         curses.curs_set(0)
     except curses.error:
