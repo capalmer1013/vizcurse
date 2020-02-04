@@ -9,14 +9,6 @@ import time
 from math import sin
 import sys
 
-# set vars
-startTime = time.time()
-FILE_PATH = "example.py"
-lastupdateTime = os.path.getmtime(FILE_PATH)
-current_func = lambda x, y, t: 0
-file_contents = open(FILE_PATH).read()
-exec(file_contents)
-
 def now():
     return (time.time() - startTime)
 
@@ -77,7 +69,7 @@ def main(stdscr, limit=0):
         while True:
             loop()
 
-if __name__ == "__main__":
+if __name__ == "api":
     # parse args
     parser = argparse.ArgumentParser(description='Live coded visuals in the terminal')
     parser.add_argument('-i', type=str, nargs=1, help='Input file to read.', required=True)
@@ -88,5 +80,14 @@ if __name__ == "__main__":
     FILE_PATH = args.i[0]  # not sure if there's a right way to do this
     lastupdateTime = os.path.getmtime(FILE_PATH)
     current_func = lambda x, y, t: 0
-    file_contents = open(FILE_PATH.read())
+    file_contents = open(FILE_PATH).read()
+    exec(file_contents)
+
+else:
+    # set vars
+    startTime = time.time()
+    FILE_PATH = "example.py"
+    lastupdateTime = os.path.getmtime(FILE_PATH)
+    current_func = lambda x, y, t: 0
+    file_contents = open(FILE_PATH).read()
     exec(file_contents)

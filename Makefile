@@ -18,7 +18,11 @@ lint:
 
 profile:
 	# pipenv run python tests/performance || python tests/performance
+	make setup
 	python3 tests/performance
+
+setup:
+	ln -s ../../vizcurse/ tests/performance || true
 
 tests:
 	pipenv run black --check ./vizcurse ./tests
