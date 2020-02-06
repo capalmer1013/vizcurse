@@ -76,7 +76,7 @@ def main(stdscr, limit=0):
 #       REQUIRED = __name__ == 'api'
 #       parser.add_argument('-E', required=REQUIRED)
 parser = argparse.ArgumentParser(description='Live coded visuals in the terminal')
-parser.add_argument('-i', type=str, help='Input file to read (Default: example.py)', default='example.py')
+parser.add_argument('-i', type=str, help='Input file to read.', default='example.py')
 parser.add_argument('--hide-overlay', help='Hide code overlay.', action='store_true')
 args = parser.parse_args()
 
