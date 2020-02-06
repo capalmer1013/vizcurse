@@ -33,6 +33,7 @@ def getColor(y, x):
 def main(stdscr, limit=0):
     def loop():
         global file_contents
+        global HIDE_OVERLAY
         updateFunc()
 
         for i in range(0, curses.COLORS):
@@ -47,9 +48,10 @@ def main(stdscr, limit=0):
                 curses.color_pair(getColor(product[0], product[1]))
             )
         # Draw code block
-        file_content_lines = file_contents.splitlines()
-        for line_y, line_content in enumerate(file_content_lines, start=3):
-            stdscr.addstr(line_y, 0, '{} '.format(line_content))
+        if not HIDE_OVERLAY:
+            file_content_lines = file_contents.splitlines()
+            for line_y, line_content in enumerate(file_content_lines, start=3):
+                stdscr.addstr(line_y, 0, '{} '.format(line_content))
 
         stdscr.refresh()
 
@@ -69,25 +71,21 @@ def main(stdscr, limit=0):
         while True:
             loop()
 
-if __name__ == "api":
-    # parse args
-    parser = argparse.ArgumentParser(description='Live coded visuals in the terminal')
-    parser.add_argument('-i', type=str, nargs=1, help='Input file to read.', required=True)
-    args = parser.parse_args()
+# parse args - none are required and defaults are set so __name__ does not need to be checked
+#   If in the future any args become required, we can do:
+#       REQUIRED = __name__ == 'api'
+#       parser.add_argument('-E', required=REQUIRED)
+parser = argparse.ArgumentParser(description='Live coded visuals in the terminal')
+parser.add_argument('-i', type=str, help='Input file to read (Default: example.py)', default='example.py')
+parser.add_argument('--hide-overlay', help='Hide code overlay.', action='store_true')
+args = parser.parse_args()
 
-    # set vars
-    startTime = time.time()
-    FILE_PATH = args.i[0]  # not sure if there's a right way to do this
-    lastupdateTime = os.path.getmtime(FILE_PATH)
-    current_func = lambda x, y, t: 0
-    file_contents = open(FILE_PATH).read()
-    exec(file_contents)
+# set vars
+FILE_PATH = args.i
+HIDE_OVERLAY = args.hide_overlay
 
-else:
-    # set vars
-    startTime = time.time()
-    FILE_PATH = "example.py"
-    lastupdateTime = os.path.getmtime(FILE_PATH)
-    current_func = lambda x, y, t: 0
-    file_contents = open(FILE_PATH).read()
-    exec(file_contents)
+startTime = time.time()
+lastupdateTime = os.path.getmtime(FILE_PATH)
+current_func = lambda x, y, t: 0
+file_contents = open(FILE_PATH).read()
+exec(file_contents)
