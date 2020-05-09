@@ -30,7 +30,9 @@ def updateFunc():
 
 def getColor(y, x):
     t = now()
-    result = int(current_func(x, y, t))
+    result = abs(int(current_func(x, y, t)))
+    #print(result)
+    
     return result % curses.COLORS
 
 def main(stdscr, limit=0):

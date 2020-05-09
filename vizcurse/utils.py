@@ -18,6 +18,7 @@ class Series():
     def __init__(self):
         self.coreCount = cpu_count()
 
+    @staticmethod
     def weierstrauss(x, n, a=0.5, b=7):
         return (a**n) * math.cos((b**n * math.pi * x))
 

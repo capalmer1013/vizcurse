@@ -2,6 +2,7 @@
 
 global current_func
 def f(x, y, t):
-	return S.summation(0, 100, Series.weierstrauss, .5)
+	#return sin(t)*10
+	return Series.weierstrauss(x, t, y, t)
 
 current_func = f
