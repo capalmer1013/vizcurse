@@ -8,6 +8,9 @@ import string
 import time
 from math import sin
 import sys
+from utils import Series
+
+S = Series()
 
 def now():
     return (time.time() - startTime)
