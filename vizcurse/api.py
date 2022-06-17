@@ -19,11 +19,14 @@ def updateFunc():
     global current_func
     global lastupdateTime
     global file_contents
-    newUpdateTime = os.path.getmtime(FILE_PATH)
-    if newUpdateTime > lastupdateTime:
-        lastupdateTime = os.path.getmtime(FILE_PATH)
-        file_contents = open(FILE_PATH).read()
-        exec(file_contents)
+    try:
+        newUpdateTime = os.path.getmtime(FILE_PATH)
+        if newUpdateTime > lastupdateTime:
+            lastupdateTime = os.path.getmtime(FILE_PATH)
+            file_contents = open(FILE_PATH).read()
+            exec(file_contents)
+    except:
+        pass
 
 def getColor(y, x):
     t = now()
