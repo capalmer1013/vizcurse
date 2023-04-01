@@ -9,6 +9,10 @@
 #    define M_PI 3.14159265358979323846
 #endif
 
+const char* MOVE_CURSOR_TOP_LEFT = "\033[%dA";  // format with number of lines to move
+const char* BACKGROUND = "\033[48;2;%d;%d;%dm"; // format with R, G, B  (24 bit RGB)
+const char* FOREGROUND = "\033[38;2;%d;%d;%dm"; // format with R, G, B  (24 bit RGB)
+
 int scaled_sin(int x, int scale) {
     double radians = x * (M_PI / 180.0); // Convert the integer to radians
     double sine_value = sin(radians); // Calculate the sine of the angle in radians
@@ -25,7 +29,7 @@ void set_color(int x, int y, int t) {
     char* foreground = "\033[38;2;%d;%d;%dm";
     t *= 4;
     printf(
-        background,
+        BACKGROUND,
         abs(y-scaled_sin(t, 256)        ) % 256,  // R
         abs((x-scaled_sin(t, 256)) * y  ) % 256,  // G
         abs(x * y + t                   ) % 256   // B
@@ -48,12 +52,9 @@ int main() {
             putchar('\n');
         }
         fflush(stdout);
-
-        t++;            // Increment time (count of complete for loop iterations)
+        t++;
         usleep(33333); // Sleep for 1/30 second
-
-        // Reset the console cursor position to the top-left corner
-        printf("\033[%dA", height);
+        printf(MOVE_CURSOR_TOP_LEFT, height);
     }
 
     return 0;
