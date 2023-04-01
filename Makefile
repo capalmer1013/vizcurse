@@ -31,4 +31,4 @@ tests:
 	#TESTING=1 pipenv run pytest --disable-warnings tests/test.py
 
 viz-c:
-	clear && gcc vizcurse.c -lm && ./a.out
+	clear && gcc -o viz_c vizcurse.c -lm && ./viz_c
