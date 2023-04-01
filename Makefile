@@ -29,3 +29,6 @@ tests:
 	#TESTING=1 pipenv run pytest -s --disable-warnings tests/unit_test.py
 	#TESTING=1 pipenv run pytest -s --disable-warnings tests/integration_test.py
 	#TESTING=1 pipenv run pytest --disable-warnings tests/test.py
+
+viz-c:
+	clear && gcc vizcurse.c -lm && ./a.out
