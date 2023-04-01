@@ -27,7 +27,7 @@ void set_color(int x, int y, int t) {
         background,
         abs(y-scaled_sin(t, 256)        ) % 256,. // R
         abs((x-scaled_sin(t, 256)) * y  ) % 256,. // G
-        abs(x * y + t                   ) % 256. // B
+        abs(x * y + t                   ) % 256.  // B
     );
 }
 
