@@ -24,9 +24,6 @@ int scaled_sin(int x, int scale) {
 }
 
 void set_color(int x, int y, int t) {
-    // Set the foreground color using ANSI escape codes with 24-bit RGB format
-    char* background = "\033[48;2;%d;%d;%dm";
-    char* foreground = "\033[38;2;%d;%d;%dm";
     t *= 4;
     printf(
         BACKGROUND,
