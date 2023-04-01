@@ -25,9 +25,9 @@ void set_color(int x, int y, int t) {
     t *= 4;
     printf(
         background,
-        abs(y-scaled_sin(t, 256)        ) % 256,
-        abs((x-scaled_sin(t, 256)) * y  ) % 256,
-        abs(x * y + t                   ) % 256
+        abs(y-scaled_sin(t, 256)        ) % 256,. // R
+        abs((x-scaled_sin(t, 256)) * y  ) % 256,. // G
+        abs(x * y + t                   ) % 256. // B
     );
 }
 
